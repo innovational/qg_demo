@@ -1,0 +1,88 @@
+<div class="layui-layout layui-layout-admin" id="layui_layout">
+    <!-- 顶部区域 -->
+    <div class="layui-header header header-demo">
+        <div class="layui-main">
+            <!-- logo区域 -->
+            <div class="admin-logo-box">
+                <a href="javascript:;" title="logo"><img style="width: 100%;height: 60%;margin-top: 10px;" src="https://www.wenwuit.cn/static/index/images/logo.png" alt=""></a>
+                <div class="larry-side-menu">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+            <!-- 右侧导航 -->
+            <ul class="layui-nav larry-header-item">
+                <li class="layui-nav-item">
+                    <a href="{:url('login/login_out')}">
+                        <i class="iconfont icon-exit"></i>
+                        退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 左侧侧边导航开始 -->
+    <div class="layui-side layui-side-bg layui-larry-side" id="larry-side">
+        <div class="layui-side-scroll" id="larry-nav-side" lay-filter="side">
+            <div class="user-photo">
+                <a class="img" title="我的头像" >
+                    <img src="/static/admin/images/user.jpg" class="userimg1"></a>
+                <p>你好！管理员, 欢迎登录</p>
+            </div>
+            <!-- 左侧菜单 -->
+            <ul class="layui-nav layui-nav-tree">
+                <!--<li class="layui-nav-item layui-this">
+                    <a href="javascript:;" data-url="/admin/user.html">
+                        <i class="iconfont icon-home1" data-icon='icon-home1'></i>
+                        <span>用户管理</span>
+                    </a>
+                </li>-->
+                <!-- 商品管理 -->
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="iconfont icon-jiaoseguanli2" ></i>
+                        <span>商品管理</span>
+                        <em class="layui-nav-more"></em>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-url="/admin/goods">
+                                <i class="iconfont icon-yonghu1" data-icon='iconfont icon-yonghu1'></i>
+                                <span>商品列表</span>
+                            </a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-url="/admin/goods/form">
+                                <i class="iconfont icon-yonghu1" data-icon='iconfont icon-yonghu1'></i>
+                                <span>添加商品</span>
+                            </a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 左侧侧边导航结束 -->
+    <!-- 右侧主体内容 -->
+    <div class="layui-body" id="larry-body" style="bottom: 0;border-left: solid 2px #1AA094;">
+        <div class="layui-tab layui-tab-card larry-tab-box" id="larry-tab" lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this" id="admin-home"><i class="iconfont icon-diannao1"></i><em>商品列表</em></li>
+            </ul>
+            <div class="layui-tab-content" style="min-height: 150px; ">
+                <div class="layui-tab-item layui-show">
+                    <iframe class="larry-iframe" data-id='0' src="/admin/goods"></iframe>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- 底部区域 -->
+    <div class="layui-footer layui-larry-foot" id="larry-footer">
+        <div class="layui-mian">
+            <div class="larry-footer-left">
+                <span>2018 &copy;</span>wenwu
+            </div>
+        </div>
+    </div>
+</div>

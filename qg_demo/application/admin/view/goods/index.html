@@ -1,0 +1,100 @@
+<section class="layui-larry-box" style="box-sizing: border-box">
+    <div class="larry-personal">
+        <div class="layui-tab">
+            <form onsubmit="return false;" data-auto="true" method="post">
+                <!--{if empty($list)}-->
+                <p class="help-block text-center well">没 有 记 录 哦！</p>
+                <!--{else}-->
+                <input type="hidden" value="resort" name="action">
+                <table class="layui-table notevent" lay-skin="line">
+                    <thead>
+                    <tr>
+                        <th class='list-table-check-td'>
+                            编号
+                        </th>
+                        <th class="nowrap">名称/分类/价格</th>
+                        <th class="text-left">图片 / 添加时间</th>
+                        <th class='text-center'>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach $list as $key=>$vo}
+                    <tr>
+                        <td class='list-table-check-td text-top'>
+                            {$vo.id}
+                        </td>
+                        <td class="text-left nowrap text-top">
+                            名称：{$vo.name}<br>
+                            分类：{$cateList[$vo['cate_id']]['name']|default='<span class="color-desc">未配置品牌</span>'}<br>
+                            金额：<span style="color: orangered">{$vo.amounts/100}</span>
+                        </td>
+                        <td class='text-left nowrap text-top'>
+                            图片：<a href="{$vo.img_list}" target="_blank"><img style="width: 60px;" src="{$vo.img_list}"/></a><br>
+                            {$vo.create_time|date='Y/m/d H:i',###}
+                        </td>
+                        <td class='text-center nowrap text-top' data-value="{$vo.id}">
+
+                            <a class="edit_op">编辑</a>
+
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <div style="float: right" class="pages">{if isset($page)}
+                    <style>
+                        .pages{float: right}
+                        .pages a,.pages span {
+                            display:inline-block;
+                            padding:2px 10px;
+                            border:1px solid #f0f0f0;
+                            -webkit-border-radius:3px;
+                            -moz-border-radius:3px;
+                            border-radius:3px;
+                            font-size: 14px;
+                        }
+                        .pages a,.pages li {
+
+                            display:inline-block;
+                            list-style: none;
+                            text-decoration:none; color:#58A0D3;
+                        }
+                        .pages a.first,.pages a.prev,.pages a.next,.pages a.end{
+                            margin:0 auto;
+                        }
+                        .pages a:hover{
+                            border-color:#50A8E6;
+                        }
+                        .pages .active{
+                            background:#50A8E6;
+                            color:#FFF;
+                            font-weight:700;
+                            border-color:#50A8E6;
+                        }
+                    </style>
+                    <p>{$page}</p>
+                    {/if}</div>
+                <!--{/if}-->
+            </form>
+            <script>
+                layui.use(['layer','jquery'],function(){
+                    var layer = layui.layer,
+                        $ = layui.jquery;
+                    //修改用户信息操作
+                    $(".edit_op").click(function(){
+                        var id=$(this).parent().attr('data-value');
+                        parent.layer.open({
+                            type: 2,
+                            title: '修改信息',
+                            shadeClose: true,
+                            shade: 0.5,
+                            maxmin: true, //开启最大化最小化按钮
+                            area: ['893px', '600px'],
+                            content: '/admin/goods/form?id='+id
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</section>

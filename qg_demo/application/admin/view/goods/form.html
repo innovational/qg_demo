@@ -1,0 +1,257 @@
+<section class="layui-larry-box">
+    <div class="larry-personal">
+        <header class="larry-personal-tit">
+            <span></span>
+        </header><!-- /header -->
+        <div class="larry-personal-body clearfix">
+            <form class="layui-form col-lg-5" id="commentForm" method="post">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择分类</label>
+                    <div class="layui-input-block">
+                        <select required class="layui-select full-width" name="cate_id">
+                            {foreach $cateList as $v}
+                            <!--{if isset($info.cate_id) and $v.id eq $info.cate_id}-->
+                            <option selected="selected" value="{$v.id}">{$v.name}</option>
+                            <!--{else}-->
+                            <option value="{$v.id}">{$v.name}</option>
+                            <!--{/if}-->
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-block">
+                        <input name="name" required value="{$info.name|default=''}" class="layui-input" title="请输入商品名称" placeholder="请输入商品名称">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品金额</label>
+                    <div class="layui-input-block">
+                        <input name="amounts" required value="{$info.amounts/100}" class="layui-input" title="请输入商品金额" placeholder="请输入商品金额">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">规格参数</label>
+                    <div class="layui-input-block">
+                        <div class="param-table-list">
+                            <table class="layui-table margin-none">
+                                <tbody class="param-table-list attr_list">
+                                {if $info.attrList}
+                                {foreach info.attrList as $val}
+                                <tr class="transition attr_box">
+                                    <td class="param-input-td one nowrap">
+                                        <select name="shop_attr_id[]" id="">
+                                            {foreach attrList as $v}
+                                            <option value="{$v.id}" {$val.attr_id==$v.id?'selected="selected"':''}>{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </td>
+                                    <td class="param-input-td one nowrap">
+                                        <input name="attr_name[]" placeholder="名称"  value="{$val.attr_name}" class="layui-input">
+                                    </td>
+                                    <td class="param-input-td two nowrap">
+                                        <input name="var_amounts[]" value="{$val.var_amounts/100}" placeholder="变动金额" class="layui-input">
+                                    </td>
+                                    <td class="param-input-td thr nowrap">
+                                        <a class="color-desc del_attr">删除</a>
+                                    </td>
+                                </tr>
+                                {/foreach}
+                                {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                        <table class="layui-table">
+                            <tr>
+                                <td class="text-center notselect padding-none border-none">
+                                    <button type="button" class="layui-btn full-width layui-btn-primary add_attr">添加属性</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片</label>
+                    <div class="layui-input-block">
+                        <style>
+                            #add_img figure{
+                                display: inline-block;
+                                width: 10%;
+                                margin-right: 5%;
+                                position: relative;margin-bottom: 1rem;
+                            }
+                            #add_img figure .house_img,
+                            #add_img figure .add_icon {
+                                display: inline-block;
+                                width: 100%;
+                                height: 100%;
+                            }
+                            #add_img figure .cancel{
+                                display: inline-block;
+                                position: absolute;
+                                top: 0.2rem;
+                                right: 0.2rem;
+                                width: 1.5rem;
+                                height: 1.5rem;
+                                border-radius: 10rem;
+                                border: 1px solid #ccc;
+                                background-color: rgba(0,0,0,0.45);
+                            }
+                            #add_img .img_null{
+                                display: block;
+                                text-align: center;
+                            }
+                            .tags_box{
+                                width: 80%;
+                                height: 35px;
+                                line-height: 35px;
+                                border: 1px solid;
+                                margin-bottom: 10px;
+                            }
+                            .tags_box span,.all_tags_box span{
+                                margin-left: 5px;
+                                border: 1px solid #c97960;
+                                border-radius: 3px;
+                                height: 20px;
+                                line-height: 20px;
+                                padding: 2px;
+                                box-sizing: border-box;
+                            }
+                        </style>
+                        <section id="add_img">
+                            <span class="img_box"></span>
+                            <span class="add_click">
+                    <figure>
+                        <img id="add_icon" class="add_icon" src="{$info.img_list??'/static/common/images/add_img.png'}" alt=""/>
+                    </figure>
+                    <input type="hidden" name="img_list" id="img_list" value="{$info.img_list}">
+                </span>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">展示描述</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="desc" placeholder="请输入展示描述">{$info.desc|default=''}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        {if !empty($vo.id)}<input type="hidden" name="id" value="{$vo.id}">{/if}
+                        <button class="layui-btn" type="button" id="save_btn">保存配置</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<style>
+
+    .background-item {
+        padding: 15px;
+        background: #efefef;
+    }
+
+    .background-item thead tr {
+        background: #e0e0e0
+    }
+
+    .price-input-td {
+        padding: 0 !important;
+    }
+
+    .price-input-td:before {
+        margin: 4px;
+        width: 35px;
+        height: 22px;
+        content: "金额";
+        line-height: 20px;
+        text-align: center;
+        position: absolute;
+        background: #e2e2e2;
+    }
+
+    .price-input-td input {
+        height: 30px;
+        padding-left: 50px;
+        border: none !important;
+    }
+</style>
+<script>
+    var $;
+    layui.use(['form','layer', 'jquery'], function(){
+        var form = layui.form();
+        var layer = layui.layer;
+        $ = layui.jquery;
+        layer.ready(function(){
+            $('#save_btn').click(function () {
+                var data=$('#commentForm').serialize();
+                $.post('',data,function (res) {
+                    if(res.code==1){
+                        layer.msg(res.msg,{time:1000},function () {
+                            window.location='/admin/goods/form?id='+res.data;
+                        })
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                })
+            });
+            $('.add_attr').click(function () {
+
+                var html='<tr class="transition attr_box">' +
+                    '                        <td class="param-input-td one nowrap">' +
+                    '                            <select name="shop_attr_id[]" id="">' +
+                    '                                {foreach attrList as $v}' +
+                    '                                <option value="{$v.id}">{$v.name}</option>' +
+                    '                                {/foreach}' +
+                    '                            </select>' +
+                    '                        </td>' +
+                    '                        <td class="param-input-td one nowrap">' +
+                    '                            <input name="attr_name[]" placeholder="名称"  value="" class="layui-input">' +
+                    '                        </td>' +
+                    '                        <td class="param-input-td two nowrap">' +
+                    '                            <input name="var_amounts[]" placeholder="变动金额" class="layui-input">' +
+                    '                        </td>' +
+                    '                        <td class="param-input-td thr nowrap">' +
+                    '                            <a class="color-desc del_attr">删除</a>' +
+                    '                        </td>' +
+                    '                    </tr>';
+                $('.attr_list').append(html);
+                form.render();
+                del_attr();
+            });
+            del_attr();
+            var upload=function () {
+                var upload1 =new UploadImage();
+                var data={
+                    btn_id:'add_icon', //你的上传按钮的id
+                    upload_url:'/admin/upload', //你的后台处理上传地址
+                    upload_success:function(res){ //上传成功回调
+                        if(res.code==1) {
+                            $('#img_list').val(res.data);
+                            $('#add_icon').attr('src',res.data);
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                    }
+                }
+                upload1.set_data(data);
+                upload1.run();
+            }();
+        });
+    });
+    function del_attr() {
+        $('.del_attr').unbind();
+        $('.del_attr').click(function () {
+            $(this).closest('.attr_box').remove();
+        });
+    }
+</script>
+<script type="text/javascript" src="__JS__/upload.js"></script>
