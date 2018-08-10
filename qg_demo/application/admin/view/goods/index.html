@@ -1,3 +1,54 @@
+<link rel="stylesheet" type="text/css" href="/static/admin/css/template.css" media="all">
+{if $Think.get.aa!=1}
+<div class="layui-fluid layadmin-cmdlist-fluid">
+    <div class="layui-row layui-col-space30">
+        {foreach $list as $key=>$vo}
+        <div class="layui-col-md2 layui-col-sm4">
+            <div class="cmdlist-container" data-value="{$vo.id}">
+                <a href="javascript:;" class="edit_op">
+                    <img src="{$vo.img_list}">
+                </a>
+                <a href="javascript:;">
+                    <div class="cmdlist-text">
+                        <p class="info">{$vo.name}</p>
+                        <div class="price">
+                            <b>￥{$vo.amounts/100}</b>
+                            <p>
+                                {$cateList[$vo['cate_id']]['name']|default='<span class="color-desc">未配置品牌</span>'}
+                            </p>
+                            <span class="flow"><i class="layui-icon layui-icon-rate"></i></span>
+                            <p>{$vo.create_time|date='Y/m/d H:i',###}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {/foreach}
+        <div class="layui-col-md12 layui-col-sm12">
+            <p>{$page}</p>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer','jquery'],function(){
+        var layer = layui.layer,
+            $ = layui.jquery;
+        //修改用户信息操作
+        $(".edit_op").click(function(){
+            var id=$(this).parent().attr('data-value');
+            parent.layer.open({
+                type: 2,
+                title: '修改信息',
+                shadeClose: true,
+                shade: 0.5,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['95%', '90%'],
+                content: '/admin/goods/form?id='+id
+            });
+        });
+    });
+</script>
+{else/}
 <section class="layui-larry-box" style="box-sizing: border-box">
     <div class="larry-personal">
         <div class="layui-tab">
@@ -89,7 +140,7 @@
                             shadeClose: true,
                             shade: 0.5,
                             maxmin: true, //开启最大化最小化按钮
-                            area: ['893px', '600px'],
+                            area: ['95%', '90%'],
                             content: '/admin/goods/form?id='+id
                         });
                     });
@@ -98,3 +149,4 @@
         </div>
     </div>
 </section>
+{/if}
