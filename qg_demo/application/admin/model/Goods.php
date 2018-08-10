@@ -71,7 +71,7 @@ class Goods extends Models{
     //编辑产品
     public function edit($id,$cate_id,$name,$desc,$img_list,$amounts,$shop_id,$post){
         $data=['cate_id'=>$cate_id,'name'=>$name,'desc'=>$desc,'img_list'=>$img_list,'amounts'=>$amounts,'shop_id'=>$shop_id];
-        if( Db::name($this->table)->where([['name','eq',$name],['id','neq',$id]])->value('id')){
+        if( Db::name($this->table)->where(['name'=>$name,'id'=>$id])->value('id')){
             return arr_return(0,'该名称已存在');
         }
         Db::startTrans();
@@ -87,7 +87,7 @@ class Goods extends Models{
                 }
             }
             if(!empty($attrList)){
-                $attrWhere=[['shop_id','=',$shop_id],['goods_id','=',$id]];
+                $attrWhere=['shop_id'=>$shop_id,'goods_id'=>$id];
                 if($op=Db::name('qg_goods_attr')->where($attrWhere)->delete()!==false) {
                     $op=Db::name('qg_goods_attr')->insertAll($attrList);
                 }
